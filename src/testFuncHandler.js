@@ -4,21 +4,14 @@ module.exports.entry = async (event ,context , callback)=>{
         0:{
             id : 0,
             name: "hoge"
-        }
-        ,
+        },
         1:{
             id : 1,
             name: "fuga"
-        }
-        ,
+        },
         2:{
             id : 2,
             name: "piyo"
-        }
-        ,
-        3:{
-            id : 3,
-            name: "ava"
         }
     };
 
@@ -31,7 +24,7 @@ module.exports.entry = async (event ,context , callback)=>{
 module.exports.childTask = async (event ,context , callback)=>{
 
     const num = Math.random();
-    if (num < 0.75){
+    if (num < 0.25){
         console.log("ERROR!!!")
         const error = new Error("something is wrong");
         return callback(error);

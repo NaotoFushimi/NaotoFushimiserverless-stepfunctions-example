@@ -23,7 +23,7 @@ npm run build
 ./node_modules/.bin/serverless deploy stepf  --profile <YOUR AWS-CLI PROFILE>
 
 # invoke test
-./node_modules/.bin/serverless invoke stepf --state testStateMachine-v3 --profile  <YOUR AWS-CLI PROFILE>
+./node_modules/.bin/serverless invoke stepf --state testStateMachine-v5 --profile  <YOUR AWS-CLI PROFILE>
 
 ```
 
