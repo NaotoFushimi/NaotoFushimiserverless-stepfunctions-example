@@ -1,0 +1,20 @@
+{
+  "name": "step-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "build": "./node_modules/.bin/babel --out-dir ./build src/**/*.js",
+    "watch": "./node_modules/.bin/babel --out-dir ./build src/**/*.js --watch",
+    "test": "sls invoke stepf --state testStateMachine-v3 --stage dev --profile dev --regeon ap-northeast-1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-env": "^1.1.8",
+    "serverless": "^1.6.1",
+    "serverless-offline": "^3.8.3",
+    "serverless-step-functions": "^0.3.0"
+  }
+}

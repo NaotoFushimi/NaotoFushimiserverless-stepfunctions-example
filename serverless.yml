@@ -1,0 +1,88 @@
+service: step-test
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  stage: dev
+  profile: dev
+  region: ap-northeast-1
+
+  exclude:
+   - src/**
+   - node_modules/
+
+plugins:
+  - serverless-step-functions
+  - serverless-offline
+
+stepFunctions:
+ stateMachines:
+   testStateMachine-v3:
+     Comment: "Input and Parallel Function"
+     StartAt: EntryState
+     States:
+       EntryState:
+         Type: Task
+         Resource: entry
+         Next: ChildState
+       ChildState:
+         Type: Parallel
+         Next: EndState
+         Branches:
+          - StartAt: Child0
+            States:
+              Child0:
+                Type: Task
+                InputPath: "$.0"
+                Resource: childTask
+                End: true
+                Retry:
+                - ErrorEquals:
+                  - HandledError
+                  IntervalSeconds: 5
+                  MaxAttempts: 6
+                  BackoffRate: 1
+                - ErrorEquals:
+                  - States.TaskFailed
+                  IntervalSeconds: 5
+                  MaxAttempts: 6
+                  BackoffRate: 1
+          - StartAt: Child1
+            States:
+              Child1:
+                Type: Task
+                InputPath: "$.1"
+                Resource: childTask
+                End: true
+                Retry:
+                - ErrorEquals:
+                  - HandledError
+                  IntervalSeconds: 5
+                  MaxAttempts: 6
+                  BackoffRate: 1
+                - ErrorEquals:
+                  - States.TaskFailed
+                  IntervalSeconds: 5
+                  MaxAttempts: 6
+                  BackoffRate: 1
+       EndState:
+         Type: Task
+         Resource: lastTask
+         End: true
+
+functions:
+  entry:
+    handler: build/src/testFuncHandler.entry
+    timeout : 100
+    memorySize : 128
+
+  childTask:
+    handler: build/src/testFuncHandler.childTask
+    timeout : 100
+    memorySize : 128
+
+  lastTask:
+    handler: build/src/testFuncHandler.lastTask
+    timeout : 100
+    memorySize : 128
+
