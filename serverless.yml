@@ -17,7 +17,7 @@ plugins:
 
 stepFunctions:
  stateMachines:
-   testStateMachine-v3:
+   testStateMachine-v4:
      Comment: "Input and Parallel Function"
      StartAt: EntryState
      States:
@@ -52,6 +52,24 @@ stepFunctions:
               Child1:
                 Type: Task
                 InputPath: "$.1"
+                Resource: childTask
+                End: true
+                Retry:
+                - ErrorEquals:
+                  - HandledError
+                  IntervalSeconds: 5
+                  MaxAttempts: 6
+                  BackoffRate: 1
+                - ErrorEquals:
+                  - States.TaskFailed
+                  IntervalSeconds: 5
+                  MaxAttempts: 6
+                  BackoffRate: 1
+          - StartAt: Child2
+            States:
+              Child2:
+                Type: Task
+                InputPath: "$.2"
                 Resource: childTask
                 End: true
                 Retry:
