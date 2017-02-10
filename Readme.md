@@ -1,4 +1,4 @@
-# Serverless-StepFunction-Example
+# Serverless-StepFunctions-Filter-Example
 serverless-stepfunctions Example Project.
 
 ## Usage
